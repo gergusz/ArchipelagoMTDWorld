@@ -1,7 +1,7 @@
 from worlds.AutoWorld import World
 from .options import MTDOptions
-from .items import item_table, MTDItem, create_item_table
-from .locations import location_table, create_location_table
+from .items import item_table, MTDItem
+from .locations import location_table
 from .regions import create_all_regions
 from typing import List, ClassVar
 
@@ -20,18 +20,18 @@ class MTDWorld(World):
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = {name: id for name, id in location_table.items()}
     
-    def generate_early(self) -> None:
-        create_location_table(self)
-    
     def create_item(self, name: str) -> MTDItem:
         data = item_table[name]
         return MTDItem(name, data.item_type, data.code, self.player)
     
     def create_items(self) -> None:
-        create_item_table(self)
         itempool: List[str] = []
-        for name, _ in item_table.items():
-            itempool += [name]
+        
+        total_locations = self.options.locationperstage.value * 3
+        
+        for _ in range(total_locations):
+            itempool.append("Powerup")
+        
         self.multiworld.itempool += map(self.create_item, itempool)
         
     def create_regions(self) -> None:

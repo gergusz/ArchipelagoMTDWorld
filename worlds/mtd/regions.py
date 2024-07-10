@@ -1,5 +1,6 @@
 from typing import Dict, List, NamedTuple, Optional, TYPE_CHECKING
 from BaseClasses import Region, MultiWorld
+from .options import LocationPerStage
 
 if TYPE_CHECKING:
     from . import MTDWorld
@@ -23,7 +24,7 @@ def create_all_regions(mtdworld: "MTDWorld") -> None:
     }
     
     for name, data in region_table.items():
-        multiworld.regions.append(create_region(multiworld, player, name, mtdworld.options.itemsamount.value))
+        multiworld.regions.append(create_region(multiworld, player, name, mtdworld.options.locationperstage.value))
         
     for name, data in region_table.items():
         create_connections_in_region(multiworld, player, name, data)
@@ -37,10 +38,10 @@ def create_region(multiworld: MultiWorld, player: int, name: str, amount: int) -
             locations.update({f"Forest {i + 1}": start_id + i})
     elif name == "Temple":
         for i in range(amount):
-            locations.update({f"Temple {i + 1}": start_id + amount*1 + i})
+            locations.update({f"Temple {i + 1}": start_id + LocationPerStage.range_end + i})
     elif name == "Pumpkin Patch":
         for i in range(amount):
-            locations.update({f"Pumpkin Patch {i + 1}": start_id + amount*2 + i})
+            locations.update({f"Pumpkin Patch {i + 1}": start_id + LocationPerStage.range_end*2 + i})
     if locations: 
         region.add_locations(locations)
     return region
