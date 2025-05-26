@@ -29,8 +29,13 @@ class MTDWorld(World):
         
         total_locations = self.options.locationperstage.value * 3
         
-        for _ in range(total_locations):
-            itempool.append("Powerup")
+        for i in range(total_locations):
+            if (i % 6 == 0) or (i % 6 == 2):
+                itempool.append("Experience") # 2/6
+            if (i % 6 == 1):
+                itempool.append("Time Trap") # 1/6
+            else:
+                itempool.append("Powerup") # 3/6
         
         self.multiworld.itempool += map(self.create_item, itempool)
         

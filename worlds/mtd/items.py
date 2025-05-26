@@ -12,9 +12,11 @@ class MTDItem(Item):
     
 class MTDItemData(NamedTuple):
     code: int
-    item_type: ItemClassification = ItemClassification.filler
+    item_type: ItemClassification = ItemClassification.useful
       
     
 item_table: Dict[str, MTDItemData] = {}
     
-item_table.update({"Powerup": MTDItemData(start_id)})
+item_table.update({"Powerup": MTDItemData(start_id),
+                   "Experience": MTDItemData(start_id + 1),
+                   "Time Trap": MTDItemData(start_id + 2)})
